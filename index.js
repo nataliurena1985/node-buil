@@ -30,22 +30,33 @@ app.listen(4000, () => {
 });
 
 app.get("/api/get", (req, res) => {
+  const sqlGet = "SELECT * FROM contact_db";
+  db.query(sqlGet, (error, result) => {
+    res.send(result);
+  });
+});
 
-    const sqlGet = "SELECT * FROM contact_db";
-    db.query(sqlGet,(error,result)=>{
-        res.send(result);
+app.post("/api/post", (req, res) => {
+  const { name, email, contact } = req.body;
+  const sqlInsert =
+    "INSERT INTO crud_contact.contact_db (name,email,contact) VALUES (?,?,?)";
 
+    db.query(sqlInsert,[name,email,contact], (error, result) => {
+      if(error){
+        console.log(error)
+      }
     });
-})
+
+
+});
+
 
 app.get("/", (req, res) => {
-//   const sqlInsert =
-//     "INSERT INTO crud_contact.contact_db (name,email,contact) VALUES ('johndoe','johndoe@gmail.com',3123456)";
-
-   
-//   db.query(sqlInsert, (err, result) => {
-//     console.log("error", err);
-//     console.log("result", result);
-//     res.send("hello express");
-// });
+  //   const sqlInsert =
+  //     "INSERT INTO crud_contact.contact_db (name,email,contact) VALUES ('johndoe','johndoe@gmail.com',3123456)";
+  //   db.query(sqlInsert, (err, result) => {
+  //     console.log("error", err);
+  //     console.log("result", result);
+  //     res.send("hello express");
+  // });
 });
